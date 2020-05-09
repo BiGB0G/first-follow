@@ -1,52 +1,57 @@
 <template>
   <div class="home">
-    <h2>First-follow</h2>
-    <form class="form-wrapper">
-      <div class="form-group" v-bind:key="rule.id" v-for="rule in rules">
-        <el-input class="input-mini" placeholder="S" v-model="rule.left"></el-input>
-        <span class="arrow">-></span>
-        <el-input class="default-input" placeholder="a b A" v-model="rule.right"></el-input>
+    <div class="card">
+      <h2>First-follow</h2>
+      <form class="form-wrapper">
+        <div class="form-group" v-bind:key="rule.id" v-for="rule in rules">
+          <el-input class="input-mini" placeholder="S" v-model="rule.left"></el-input>
+          <span class="arrow">-></span>
+          <el-input class="default-input" placeholder="a b A" v-model="rule.right"></el-input>
+          <el-button class="btn-delete" @click="drop(rule.id)" type="danger" icon="el-icon-delete" circle></el-button>
+        </div>
+        <div class="form-group text-center">
+          <el-button class="add-rule" icon="el-icon-plus" type="success" @click="addRule">Добавить</el-button>
+          <el-button icon="el-icon-s-promotion" type="primary" @click="calculate">Посчитать</el-button>
+        </div>
+      </form>
+      <div class="first-sets">
+        <el-table
+                v-loading="loading"
+                :data="firstData"
+                border
+                style="width: 100%">
+          <el-table-column
+                  prop="left"
+                  label="#"
+                  width="80">
+          </el-table-column>
+          <el-table-column
+                  label="First sets">
+            <template slot-scope="props">
+              <span class="sets-item" v-bind:key="item" v-for="item in props.row.right">{{item === null ? 'eps' : item}}</span>
+            </template>
+          </el-table-column>
+        </el-table>
       </div>
-      <div class="form-group text-center">
-        <el-button class="add-rule" icon="el-icon-plus" type="success" @click="addRule">Добавить</el-button>
-        <el-button icon="el-icon-s-promotion" type="primary" @click="calculate">Посчитать</el-button>
+      <div class="follow-sets">
+        <el-table
+                v-loading="loading"
+                :data="followData"
+                border
+                style="width: 100%">
+          <el-table-column
+                  prop="left"
+                  label="#"
+                  width="80">
+          </el-table-column>
+          <el-table-column
+                  label="Follow sets">
+            <template slot-scope="props">
+              <span class="sets-item" v-bind:key="item" v-for="item in props.row.right">{{item === null ? 'eps' : item}}</span>
+            </template>
+          </el-table-column>
+        </el-table>
       </div>
-    </form>
-    <div class="first-sets">
-      <el-table
-              :data="firstData"
-              border
-              style="width: 100%">
-        <el-table-column
-                prop="left"
-                label="#"
-                width="80">
-        </el-table-column>
-        <el-table-column
-                label="First sets">
-          <template slot-scope="props">
-            <span class="sets-item" v-bind:key="item" v-for="item in props.row.right">{{item === null ? 'eps' : item}}</span>
-          </template>
-        </el-table-column>
-      </el-table>
-    </div>
-    <div class="follow-sets">
-      <el-table
-              :data="followData"
-              border
-              style="width: 100%">
-        <el-table-column
-                prop="left"
-                label="#"
-                width="80">
-        </el-table-column>
-        <el-table-column
-                label="Follow sets">
-          <template slot-scope="props">
-            <span class="sets-item" v-bind:key="item" v-for="item in props.row.right">{{item === null ? 'eps' : item}}</span>
-          </template>
-        </el-table-column>
-      </el-table>
     </div>
   </div>
 </template>
@@ -59,6 +64,7 @@
     name: 'home',
     data() {
       return {
+        loading: false,
         rules: [
           {
             id: Math.random(),
@@ -92,6 +98,8 @@
         })
       },
       calculate: function () {
+        this.loading = true;
+
         this.firstData = [];
         this.followData = [];
 
@@ -130,13 +138,37 @@
             });
           }
         }
+
+        setTimeout(() => this.loading = false, 500);
+      },
+      drop: function (id) {
+        if(this.rules.length === 1){
+          this.$notify({
+            title: 'Тих тих...',
+            message: 'Последний нельзя удалить',
+            type: 'warning'
+          });
+          return;
+        }
+        this.rules.splice(this.rules.find(rule => rule.id === id), 1);
       }
     }
   }
 </script>
 
 
-<style scoped>
+<style>
+  body{
+    background-color: #edeef0;
+  }
+  .card{
+    width: max-content;
+    margin: 0 auto 60px auto;
+    padding: 60px;
+    border-radius: 10px;
+    background-color: white;
+    min-width: 800px;
+  }
   .form-wrapper{
     max-width: 800px;
     margin: 0 auto;
@@ -174,5 +206,9 @@
   }
   .sets-item{
     margin-right: 5px;
+  }
+  .btn-delete{
+    margin-left: 10px!important;
+    border-radius: 5px!important;
   }
 </style>
