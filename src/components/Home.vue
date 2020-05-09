@@ -100,6 +100,15 @@
       calculate: function () {
         this.loading = true;
 
+        if(this.rules.length === 1 && (this.rules[0].left === '' || this.rules[0].right === '')){
+          this.$notify.error({
+            title: 'Ошибка',
+            message: 'Надо бы чего-нибудь ввести'
+          });
+          setTimeout(() => this.loading = false, 500);
+          return;
+        }
+
         this.firstData = [];
         this.followData = [];
 
