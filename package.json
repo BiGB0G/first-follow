@@ -9,6 +9,8 @@
   },
   "dependencies": {
     "core-js": "^3.6.4",
+    "element-ui": "^2.13.1",
+    "first-follow": "^4.0.0",
     "vue": "^2.6.11"
   },
   "devDependencies": {
