@@ -105,6 +105,8 @@
             title: 'Ошибка',
             message: 'Надо бы чего-нибудь ввести'
           });
+          this.followData = [];
+          this.firstData = [];
           setTimeout(() => this.loading = false, 500);
           return;
         }
@@ -160,6 +162,10 @@
           return;
         }
         this.rules.splice(this.rules.find(rule => rule.id === id), 1);
+        this.loading = true;
+        this.followData = [];
+        this.firstData = [];
+        setTimeout(() => this.loading = false, 500);
       }
     }
   }
