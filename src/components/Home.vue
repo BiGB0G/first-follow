@@ -5,7 +5,7 @@
       <form class="form-wrapper">
         <div class="form-group" v-bind:key="rule.id" v-for="rule in rules">
           <el-input class="input-mini" placeholder="S" v-model="rule.left"></el-input>
-          <span class="arrow">-></span>
+          <span class="arrow"><i class="el-icon-right"></i></span>
           <el-input class="default-input" placeholder="a b A" v-model="rule.right"></el-input>
           <el-button class="btn-delete" @click="drop(rule.id)" type="danger" icon="el-icon-delete" circle></el-button>
         </div>
@@ -212,6 +212,7 @@
     padding-top: 10px;
     margin-right: 10px;
     margin-left: 10px;
+    /*font-size: 20px;*/
   }
   .add-rule{
     width: 180px;
