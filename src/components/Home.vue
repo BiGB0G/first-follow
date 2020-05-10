@@ -161,7 +161,7 @@
           });
           return;
         }
-        this.rules.splice(this.rules.find(rule => rule.id === id), 1);
+        this.rules.splice(this.rules.indexOf(this.rules.find(rule => rule.id === id)), 1);
         this.loading = true;
         this.followData = [];
         this.firstData = [];
